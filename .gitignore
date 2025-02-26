@@ -67,8 +67,9 @@ poetry.lock
 # Avoid commit of prompt files
 *prompts.json
 
-# Avoid commit of outputs
+# Avoid commit of outputs and massive plots
 outputs/
+plots/
 
 # Pycharm files
 .idea*
