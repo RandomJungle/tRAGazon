@@ -1,0 +1,28 @@
+[project]
+name = "tragazón"
+version = "0.1.0"
+description = ""
+authors = [
+    {name = "Juliette Bourquin",email = "bourquinjuliette@gmail.com"}
+]
+readme = "README.md"
+requires-python = ">=3.12,<4.0"
+dependencies = [
+    "mistralai (>=1.5.0,<2.0.0)",
+    "pandas (>=2.2.3,<3.0.0)",
+    "scikit-learn (>=1.6.1,<2.0.0)",
+    "python-dotenv (>=1.0.1,<2.0.0)",
+    "tqdm (>=4.67.1,<5.0.0)",
+    "plotly (>=6.0.0,<7.0.0)",
+    "matplotlib (>=3.10.0,<4.0.0)",
+    "faiss-cpu (>=1.10.0,<2.0.0)",
+    "langchain-community (>=0.3.18,<0.4.0)",
+    "langchain-mistralai (>=0.2.7,<0.3.0)",
+    "langchain-chroma (>=0.2.2,<0.3.0)",
+    "lark (>=1.2.2,<2.0.0)"
+]
+
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
