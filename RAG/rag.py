@@ -72,7 +72,9 @@ def run_rag_queries(
         vector_db: VectorStore,
         queries: List[str]) -> None:
     db_retrieval_chain = create_vector_retriever(
-        retriever=vector_db.as_retriever()
+        retriever=vector_db.as_retriever(
+            k=10
+        )
     )
     for query in queries:
         response = query_vector_database(
@@ -107,7 +109,13 @@ if __name__ == '__main__':
         text_column='fulltext',
         embeddings_column='embeddings_fulltext'
     )
+    run_rag_queries(
+        vector_db=vector_store,
+        queries=[
+            'Give me salmon recipes that do not use any herbs'
+        ]
+    )
     similarity_search(
         vector_db=vector_store,
-        query='Recipe with salmon and walnuts'
+        query='Recipe with turnips, canned tomatoes and carrot'
     )

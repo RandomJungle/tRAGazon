@@ -72,6 +72,4 @@ outputs/
 plots/
 
 # Pycharm files
-.idea*
 .idea/
-idea/

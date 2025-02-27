@@ -137,6 +137,7 @@ if __name__ == '__main__':
     )
     main(
         queries=[
+            'Give me salmon recipes that do not use any herbs',
             'I want Casserole recipes that are rated above 4.5'
         ]
     )

@@ -1,8 +1,18 @@
-> **What is a good recipe that uses Salmon and Mushrooms ?**
-> 
-> Based on the provided context, a recipe that uses salmon and mushrooms is Teriyaki Salmon. This recipe calls for 6 salmon fillets and 1 pound of brussels sprouts, halved if large, as well as 8 oz of shiitake mushrooms. The salmon fillets are combined with a teriyaki sauce made from low-sodium teriyaki sauce, honey, rice vinegar, chopped garlic, grated ginger, and dark sesame oil. The brussels sprouts and shiitake mushrooms are cooked separately and served as a side dish.
+Experimenting with RAG on a [dataset from Kaggle](https://www.kaggle.com/datasets/pes12017000148/food-ingredients-and-recipe-dataset-with-images)
 
-In here the top of the context list is pulled into the answer, simple enough. 
+```
+📁 tRAGazón
+|
+└───📁 data_preparation: 
+|   |   df_transform.py: dataframe transformations
+|   |   dim_reduction.py: dimensionality reduction of embeddings using tSNE
+|   |   get_embeddings.py: query Mistral AI embeddings for dataset
+└───📁 RAG: 
+|   |   rag.py: vector store and RAG querying
+|   |   self_query_rag.py: vector store and RAG with self query
+```
+
+Examples of results from RAG :
 
 > **What is a good recipes that uses strawberries, green tea and stilton cheese ?**
 > 
@@ -32,4 +42,25 @@ The issue here is that, since the question is talking explicitly about minestron
 >
 > 2. Super Herbed Sautéed Salmon with Creamy Leeks and Bacon: This recipe does not include any herbs in the salmon portion.
 
-Here, the question include herbs and so it weighs in the similarity for the retriever, which collects as its top answer only recipes that heavily accent the herb part in their title.
+Here the different parts are somwhat working against one another, since the question include herbs, the word is probably weighing in on the embedding of the question, and so the retriever is retrieving mostly herb-based recipes based on the similarity with that vector, collecting as its top answer only recipes that heavily accent the herb part in their title.
+
+When fixing k at 10, The list is larger, which means there are a few recipes that enter the context that are not using herbs
+
+> **Give me salmon recipes that do not use any herbs**
+> 
+>Based on the provided context, there are two salmon recipes that do not use any herbs:
+>
+>1. Roasted Salmon With Green Herbs: Although the name includes "green herbs," the recipe itself does not require any herbs. The herbs are used as a topping for the salmon, but they can be omitted if desired. The actual recipe only includes salmon, salt, pepper, olive oil, lemon juice, and lemon wedges.
+>
+>2. Salmon Roasted in Butter: This recipe does not use any herbs. It includes salmon, butter, salt, pepper, and lemon wedges.
+
+This could be a task for self querying, except that the more rigid logic of database querying means that the query will try to avoid the word 'herb' in the ingredient list, but won't descend or ascend the abstraction level, meaning the query will result in something like : 
+
+```
+{
+    "query": "salmon",
+    "filter": "not(contain(ingredient_tags, \"herbs\"))"
+}
+```
+
+Which won't match any specific herb, like thyme or basil. The logic of query and natural language do not completely blend together in this specific case.
